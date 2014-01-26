@@ -1,0 +1,18 @@
+from os.path import abspath, dirname, join, normpath
+
+MEZZANINE_ROOT = dirname(abspath(__file__))
+
+DEBUG = True
+
+SECRET_KEY = "9511895a-b2b7-49d6-b9cc-fc4d35f3771f86643460-980a-43ce-92b9-bd42057d8900ad6a106e-c2db-40ba-85d9-d1a599e36c7c"
+NEVERCACHE_KEY = "1df84b79-f6ac-4ec1-ae3b-f3f779153af288b6dc00-ce16-4cfb-8109-6bd2fd7eec629086ea63-c86f-42fa-a6cc-c26cfc9f650c"
+
+ALLOWED_HOSTS = ['*']
+TIME_ZONE = "Europe/Amsterdam"
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": normpath(join(MEZZANINE_ROOT, "default.db"))
+    }
+}
