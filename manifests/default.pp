@@ -1,19 +1,31 @@
-user { 'sanoma':
+$user = "sanoma"
+$password = "devops"
+$project = "myproject"
+
+user { "$user":
   ensure => 'present',
-  password => 'devops'
+  password => sha1("$password")
 }
 
-file { '/home/sanoma':
+file { "/home/$user":
   ensure => directory,
-  owner => 'sanoma',
-  group => 'sanoma',
+  owner => $user,
+  group => $user,
   mode => 0701,
-  require => User["sanoma"];
+  require => User["$user"]
 }
 
-class { 'mezzanine': }
+class { 'mezzanine':
+  user => $user,
+  project => $project
+}
+
 class { 'nginx': }
-class { 'nginx::mezzanine_vhost': }
+class { 'nginx::mezzanine_vhost':
+  project => $project
+}
 class { 'gunicorn': }
 class { 'supervisor': }
-class { 'gunicorn::supervisor': }
+class { 'gunicorn::supervisor':
+  project => $project
+}

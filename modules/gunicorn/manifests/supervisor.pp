@@ -1,5 +1,5 @@
-class gunicorn::supervisor () {
-  file { '/etc/supervisor/conf.d/myproject.conf':
+class gunicorn::supervisor ($project = "mezzanine_project") {
+  file { "/etc/supervisor/conf.d/$project.conf":
     ensure => present,
     content => template("gunicorn/mezzanine_supervisor.conf.erb"),
     require => Package["supervisor"],

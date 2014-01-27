@@ -1,4 +1,4 @@
-[program:myproject]
-command = gunicorn --pythonpath /home/sanoma/myproject/ myproject.wsgi
-directory = /home/sanoma
+[program:<%= @project %>]
+command = gunicorn --pythonpath /home/<%= @user %>/<%= @project %>/ <%= @project %>.wsgi
+directory = /home/<%= @user %>
 user = root 

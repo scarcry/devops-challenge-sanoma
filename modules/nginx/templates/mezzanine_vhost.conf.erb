@@ -1,10 +1,10 @@
-upstream myproject {
+upstream <%= @project %> {
     server 127.0.0.1:8000;
 }
 
 server {
     listen 80;
-    server_name sanoma.local;
+    server_name <%= @fqdn %>;
     client_max_body_size 10M;
     keepalive_timeout    15;
 
@@ -14,23 +14,23 @@ server {
         proxy_set_header    X-Real-IP               $remote_addr;
         proxy_set_header    X-Forwarded-For         $proxy_add_x_forwarded_for;
         proxy_set_header    X-Forwarded-Protocol    $scheme;
-        proxy_pass          http://myproject;
+        proxy_pass          http://<%= @project %>;
     }
 
     location /static/ {
-        root            /home/sanoma/myproject;
+        root            /home/<%= @user %>/<%= @project %>;
         access_log      off;
         log_not_found   off;
     }
 
     location /robots.txt {
-        root            /home/sanoma/myproject/static;
+        root            /home/<%= @user %>/<%= @project %>/static;
         access_log      off;
         log_not_found   off;
     }
 
     location /favicon.ico {
-        root            /home/sanoma/myproject/static/img;
+        root            /home/<%= @user %>/<%= @project %>/static/img;
         access_log      off;
         log_not_found   off;
     }

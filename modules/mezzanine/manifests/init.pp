@@ -1,4 +1,4 @@
-class mezzanine () {
+class mezzanine ($user = 'mezzanine_user', $project = 'mezzanine_project') {
   package {
     'epel-release':
       provider => rpm,
@@ -15,31 +15,31 @@ class mezzanine () {
       require => [ Package["python-pip"], Package["python-devel"] ];
   }
 
-  exec { '/usr/bin/mezzanine-project myproject':
-    user => 'sanoma',
-    cwd => '/home/sanoma',
-    creates => '/home/sanoma/myproject/manage.py',
-    require => [ Package["mezzanine"], File["/home/sanoma"] ];
+  exec { "/usr/bin/mezzanine-project $project":
+    user => $user,
+    cwd => "/home/$user",
+    creates => "/home/$user/$project/manage.py",
+    require => [ Package["mezzanine"], File["/home/$user"] ];
   }
 
   exec { '/usr/bin/python manage.py createdb --noinput':
-    user => 'sanoma',
-    cwd => '/home/sanoma/myproject',
-    creates => '/home/sanoma/myproject/default.db',
-    require => Exec["/usr/bin/mezzanine-project myproject"]
+    user => $user,
+    cwd => "/home/$user/$project",
+    creates => "/home/$user/$project/default.db",
+    require => Exec["/usr/bin/mezzanine-project $project"]
   }
 
   exec { '/usr/bin/python manage.py collectstatic --noinput':
-    user => 'sanoma',
-    cwd => '/home/sanoma/myproject',
-    creates => '/home/sanoma/myproject/static/css',
-    require => Exec["/usr/bin/mezzanine-project myproject"]
+    user => $user,
+    cwd => "/home/$user/$project",
+    creates => "/home/$user/$project/static/css",
+    require => Exec["/usr/bin/mezzanine-project $project"]
   }
 
-  file { '/home/sanoma/myproject/local_settings.py':
+  file { "/home/$user/$project/local_settings.py":
     ensure => present,
-    owner => 'sanoma',
-    group => 'sanoma',
+    owner => $user,
+    group => $user,
     content => template("mezzanine/local_settings.py.erb")
   }
 }
