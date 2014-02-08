@@ -17,8 +17,8 @@ Solution/implementation for DevOps Challenge.
 
 * Inside the repository directory:
 
-    $ vagrant up
+        $ vagrant up
 
-A virtual machine is created, and Puppet is used to provision nginx, gunicorn (managed by supervisord), running an empty mezzanine project.
+A virtual machine is created, and Puppet is used to provision a mezzanine project, nginx with a vhost configuration, gunicorn, and supervisord to manage gunicorn as a service.
 
-* [Browse](http://sanoma.local:8080) to the newly provisioned application
+* [Browse](http://sanoma.local:8080) to the newly provisioned mezzanine project.
