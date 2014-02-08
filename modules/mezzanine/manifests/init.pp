@@ -40,6 +40,7 @@ class mezzanine ($user = 'mezzanine_user', $project = 'mezzanine_project') {
     ensure => present,
     owner => $user,
     group => $user,
-    content => template("mezzanine/local_settings.py.erb")
+    content => template("mezzanine/local_settings.py.erb"),
+    require => Exec["/usr/bin/mezzanine-project $project"]
   }
 }

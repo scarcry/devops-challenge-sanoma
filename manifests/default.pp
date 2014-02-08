@@ -4,7 +4,9 @@ $project = "myproject"
 
 user { "$user":
   ensure => 'present',
-  password => sha1("$password")
+  password => sha1("$password"),
+  home => "/home/$user",
+  managehome => true
 }
 
 file { "/home/$user":
