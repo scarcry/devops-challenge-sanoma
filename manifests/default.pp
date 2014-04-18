@@ -1,6 +1,6 @@
 $user = "sanoma"
 $password = "devops"
-$project = "myproject"
+$project = "sanoma"
 
 user { "$user":
   ensure => 'present',
@@ -17,17 +17,20 @@ file { "/home/$user":
   require => User["$user"]
 }
 
-class { 'mezzanine':
-  user => $user,
-  project => $project
-}
+class { 'generic': }
 
 class { 'nginx': }
 class { 'nginx::mezzanine_vhost':
   project => $project
 }
+
 class { 'gunicorn': }
 class { 'supervisor': }
 class { 'gunicorn::supervisor':
+  project => $project
+}
+
+class { 'mezzanine':
+  user => $user,
   project => $project
 }

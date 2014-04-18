@@ -3,12 +3,12 @@ class mezzanine ($user = 'mezzanine_user', $project = 'mezzanine_project') {
     'epel-release':
       provider => rpm,
       ensure => present,
-      source => "http://mirror.nl.leaseweb.net/epel/6/i386/epel-release-6-8.noarch.rpm";
+      source => "http://ftp.nluug.nl/pub/os/Linux/distr/fedora-epel/6/x86_64/epel-release-6-8.noarch.rpm";
+    'python-devel':
+      ensure => present;
     'python-pip':
       ensure => present,
       require => Package["epel-release"];
-    'python-devel':
-      ensure => present;
     'mezzanine':
       provider => pip,
       ensure => present,
@@ -25,7 +25,7 @@ class mezzanine ($user = 'mezzanine_user', $project = 'mezzanine_project') {
   exec { '/usr/bin/python manage.py createdb --noinput':
     user => $user,
     cwd => "/home/$user/$project",
-    creates => "/home/$user/$project/default.db",
+    creates => "/home/$user/$project/sanoma.db",
     require => Exec["/usr/bin/mezzanine-project $project"]
   }
 
